@@ -1,7 +1,8 @@
-"""Open IMDb 2024 movies and extract visible movie titles safely."""
+"""Open IMDb 2024 and extract visible movie titles with Selenium."""
 
 import re
 import time
+from pathlib import Path
 
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException, WebDriverException
@@ -16,143 +17,125 @@ IMDB_URL = (
     "?title_type=feature&release_date=2024-01-01,2024-12-31"
 )
 
-TITLE_LINK_SELECTOR = "a[href*='/title/tt']"
-MOVIE_CARD_SELECTOR = "li.ipc-metadata-list-summary-item"
+TITLE_SELECTOR = ".ipc-title__text"
 
 
 def clean_title(raw_title):
-    """Remove IMDb ranking prefixes such as '1. Movie Name'."""
+    """Remove ranking prefixes such as '1. Movie Name'."""
     return re.sub(r"^\d+\.\s*", "", raw_title).strip()
 
 
 def create_driver():
-    """Create and return a Chrome WebDriver configured for this project."""
+    """Create a normal visible Chrome browser."""
     options = Options()
     options.add_argument("--start-maximized")
     options.add_argument("--lang=en-US")
     options.add_argument("--disable-notifications")
-    options.page_load_strategy = "eager"
 
     driver = webdriver.Chrome(options=options)
-    driver.set_page_load_timeout(60)
+    driver.set_page_load_timeout(90)
     return driver
 
 
-def page_has_movie_titles(driver):
-    """Return True when IMDb title links are present on the current page."""
-    return bool(driver.find_elements(By.CSS_SELECTOR, TITLE_LINK_SELECTOR))
+def save_debug_files(driver):
+    """Save the current page if IMDb does not load as expected."""
+    debug_dir = Path("data/raw")
+    debug_dir.mkdir(parents=True, exist_ok=True)
+
+    screenshot_path = debug_dir / "imdb_debug.png"
+    html_path = debug_dir / "imdb_debug.html"
+
+    try:
+        driver.save_screenshot(str(screenshot_path))
+        html_path.write_text(driver.page_source, encoding="utf-8")
+        print(f"Debug screenshot saved to: {screenshot_path}")
+        print(f"Debug HTML saved to: {html_path}")
+    except Exception as error:
+        print("Could not save debug files:", repr(error))
 
 
-def load_imdb_page(driver, attempts=3):
-    """Open IMDb and retry if the result page does not load correctly."""
-    for attempt in range(1, attempts + 1):
-        print(f"Opening IMDb page - attempt {attempt}/{attempts}...")
-
-        try:
-            driver.get(IMDB_URL)
-        except TimeoutException:
-            print("Page load took too long. Checking the loaded content...")
-
-        try:
-            WebDriverWait(driver, 30).until(
-                lambda browser: browser.execute_script(
-                    "return document.readyState"
-                )
-                in ("interactive", "complete")
+def wait_for_movie_titles(driver):
+    """Wait until IMDb movie-title elements become available."""
+    try:
+        return WebDriverWait(driver, 40).until(
+            EC.presence_of_all_elements_located(
+                (By.CSS_SELECTOR, TITLE_SELECTOR)
             )
-
-            WebDriverWait(driver, 30).until(
-                EC.presence_of_element_located(
-                    (By.CSS_SELECTOR, TITLE_LINK_SELECTOR)
-                )
-            )
-        except TimeoutException:
-            pass
-
-        print("Current URL:", driver.current_url)
-        print("Page title:", driver.title or "[blank]")
-
-        if page_has_movie_titles(driver):
-            return True
-
-        if attempt < attempts:
-            print("Movie data not detected. Retrying...")
-            time.sleep(3)
-            driver.refresh()
-            time.sleep(2)
-
-    return False
+        )
+    except TimeoutException:
+        return []
 
 
-def extract_title_from_card(card):
-    """Extract a valid movie title from one IMDb result card."""
-    links = card.find_elements(By.CSS_SELECTOR, TITLE_LINK_SELECTOR)
+def load_imdb(driver):
+    """Load IMDb, retry once, and return visible title elements."""
+    print("Opening IMDb 2024 movies page...")
 
-    for link in links:
-        text = link.text.strip()
-        href = link.get_attribute("href") or ""
+    try:
+        driver.get(IMDB_URL)
+    except TimeoutException:
+        print("Initial page load timed out, continuing with available content...")
 
-        if text and "/title/tt" in href:
-            title = clean_title(text.split("\n")[0])
-            if title:
-                return title, href
+    time.sleep(5)
 
-    return None, None
+    print("Current URL:", driver.current_url)
+    print("Page title:", driver.title or "[blank]")
+
+    title_elements = wait_for_movie_titles(driver)
+
+    if title_elements:
+        return title_elements
+
+    print("Movie titles were not detected. Refreshing once...")
+    driver.refresh()
+    time.sleep(8)
+
+    print("Current URL after refresh:", driver.current_url)
+    print("Page title after refresh:", driver.title or "[blank]")
+
+    return wait_for_movie_titles(driver)
 
 
-def scrape_visible_titles(driver):
-    """Extract visible movie titles from IMDb without duplicate titles."""
-    cards = driver.find_elements(By.CSS_SELECTOR, MOVIE_CARD_SELECTOR)
-    print(f"Movie cards found: {len(cards)}")
-
+def extract_titles(elements):
+    """Convert Selenium title elements into a clean unique title list."""
     titles = []
-    seen_links = set()
+    seen = set()
 
-    for card in cards:
-        title, href = extract_title_from_card(card)
+    for element in elements:
+        raw_title = element.text.strip()
 
-        if title and href and href not in seen_links:
-            seen_links.add(href)
+        if not raw_title:
+            continue
+
+        title = clean_title(raw_title)
+
+        if title and title not in seen:
+            seen.add(title)
             titles.append(title)
-
-    # Fallback if IMDb changes the result-card wrapper but keeps title links.
-    if not titles:
-        print("Card-based extraction returned no titles. Using link fallback...")
-
-        links = driver.find_elements(By.CSS_SELECTOR, TITLE_LINK_SELECTOR)
-
-        for link in links:
-            text = link.text.strip()
-            href = link.get_attribute("href") or ""
-
-            if not text or not href or href in seen_links:
-                continue
-
-            title = clean_title(text.split("\n")[0])
-
-            if title:
-                seen_links.add(href)
-                titles.append(title)
 
     return titles
 
 
 def main():
-    """Launch Chrome, open IMDb, and print visible 2024 movie titles."""
+    """Launch Chrome and print the visible IMDb 2024 movie titles."""
     driver = None
 
     try:
         print("Starting Chrome...")
         driver = create_driver()
 
-        if not load_imdb_page(driver):
-            print("\nIMDb did not return the movie-results page after 3 attempts.")
-            print("Check the Chrome window for a network, consent, or verification page.")
-            input("Press Enter to close Chrome...")
+        title_elements = load_imdb(driver)
+
+        if not title_elements:
+            print("\nIMDb movie titles could not be detected.")
+            print("Look at the Chrome window to see whether IMDb shows a blank,")
+            print("consent, verification, network, or access page.")
+            save_debug_files(driver)
+            input("\nPress Enter to close Chrome...")
             return
 
-        titles = scrape_visible_titles(driver)
+        titles = extract_titles(title_elements)
 
+        print(f"\nTitle elements found: {len(title_elements)}")
         print("\nIMDb 2024 Movies")
         print("-" * 50)
 
@@ -163,15 +146,23 @@ def main():
         input("\nPress Enter to close Chrome...")
 
     except WebDriverException as error:
-        print("\nSelenium/Chrome error:")
+        print("\nSelenium/Chrome error")
         print("Error type:", type(error).__name__)
         print("Error details:", repr(error))
+
+        if driver is not None:
+            save_debug_files(driver)
+
         input("\nPress Enter to close Chrome...")
 
     except Exception as error:
-        print("\nUnexpected error:")
+        print("\nUnexpected error")
         print("Error type:", type(error).__name__)
         print("Error details:", repr(error))
+
+        if driver is not None:
+            save_debug_files(driver)
+
         input("\nPress Enter to close Chrome...")
 
     finally:
