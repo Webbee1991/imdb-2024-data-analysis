@@ -58,8 +58,8 @@ def convert_duration_to_minutes(raw_duration):
     if not raw_duration:
         return None
 
-    hours_match = re.search(r"(\d+)h", raw_duration)
-    minutes_match = re.search(r"(\d+)m", raw_duration)
+    hours_match = re.search(r"(\d{1,2})h", raw_duration)
+    minutes_match = re.search(r"(\d{1,3})m", raw_duration)
 
     hours = int(hours_match.group(1)) if hours_match else 0
     minutes = int(minutes_match.group(1)) if minutes_match else 0
@@ -150,9 +150,21 @@ def extract_title(card):
 
 
 def extract_duration(card_text):
-    """Extract duration text such as '2h 8m' or '95m' from card text."""
-    match = re.search(r"\b(?:\d+h(?:\s*\d+m)?|\d+m)\b", card_text)
-    return match.group(0) if match else None
+    """Extract runtime safely even when IMDb joins year and duration."""
+    year_runtime_match = re.search(
+        r"(?:19|20)\d{2}(\d{1,2}h(?:\s*\d{1,2}m)?|\d{1,3}m)",
+        card_text,
+    )
+
+    if year_runtime_match:
+        return year_runtime_match.group(1)
+
+    runtime_match = re.search(
+        r"(?<!\d)(\d{1,2}h(?:\s*\d{1,2}m)?|\d{1,3}m)(?!\d)",
+        card_text,
+    )
+
+    return runtime_match.group(1) if runtime_match else None
 
 
 def extract_rating(card_text):
