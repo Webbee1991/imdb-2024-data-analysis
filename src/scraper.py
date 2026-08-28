@@ -1,7 +1,8 @@
 """Open IMDb 2024 movies and extract visible movie titles."""
 
+import re
+
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -12,6 +13,30 @@ IMDB_URL = (
     "https://www.imdb.com/search/title/"
     "?title_type=feature&release_date=2024-01-01,2024-12-31"
 )
+
+
+def clean_title(raw_title):
+    """Remove IMDb's numeric ranking prefix, for example '1. Movie Name'."""
+    return re.sub(r"^\d+\.\s*", "", raw_title).strip()
+
+
+def extract_title_from_card(card):
+    """Return the visible title text from one IMDb movie card."""
+    selectors = [
+        "a.ipc-title-link-wrapper",
+        "a[href*='/title/tt']",
+    ]
+
+    for selector in selectors:
+        elements = card.find_elements(By.CSS_SELECTOR, selector)
+        for element in elements:
+            text = element.text.strip()
+            href = element.get_attribute("href") or ""
+
+            if text and "/title/tt" in href:
+                return clean_title(text.split("\n")[0])
+
+    return None
 
 
 def open_imdb_page():
@@ -37,22 +62,17 @@ def open_imdb_page():
         )
 
         print(f"Movie cards found: {len(movie_cards)}")
-        print("\nFirst visible movie titles:")
 
         titles = []
 
         for card in movie_cards:
-            try:
-                title_element = card.find_element(
-                    By.CSS_SELECTOR,
-                    "h3.ipc-title__text",
-                )
-                titles.append(title_element.text)
-            except NoSuchElementException:
-                continue
+            title = extract_title_from_card(card)
+            if title:
+                titles.append(title)
 
-        for title in titles[:10]:
-            print(title)
+        print("\nFirst visible movie titles:")
+        for number, title in enumerate(titles[:10], start=1):
+            print(f"{number}. {title}")
 
         print(f"\nMovie titles extracted: {len(titles)}")
         input("Press Enter to close Chrome...")
