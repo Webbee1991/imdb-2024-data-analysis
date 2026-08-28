@@ -12,6 +12,7 @@ GENRE_OUTPUT = CLEANED_DIR / "imdb_2024_movies_genre.csv"
 MASTER_OUTPUT = CLEANED_DIR / "imdb_2024_movies.csv"
 
 REQUIRED_COLUMNS = [
+    "IMDb ID",
     "Movie Name",
     "Genre",
     "Ratings",
@@ -56,9 +57,10 @@ def load_genre_csvs():
 
 
 def clean_combined_data(dataframe):
-    """Standardize text/numeric fields and remove duplicate movie-genre rows."""
+    """Standardize fields and remove duplicate IMDb-ID/genre rows."""
     cleaned = dataframe.copy()
 
+    cleaned["IMDb ID"] = cleaned["IMDb ID"].astype("string").str.strip()
     cleaned["Movie Name"] = cleaned["Movie Name"].astype("string").str.strip()
     cleaned["Genre"] = cleaned["Genre"].astype("string").str.strip()
 
@@ -72,14 +74,29 @@ def clean_combined_data(dataframe):
         cleaned["Duration"], errors="coerce"
     )
 
-    cleaned = cleaned.dropna(subset=["Movie Name", "Genre"])
+    cleaned = cleaned.dropna(subset=["IMDb ID", "Movie Name", "Genre"])
     cleaned = cleaned[
-        (cleaned["Movie Name"] != "") & (cleaned["Genre"] != "")
+        (cleaned["IMDb ID"] != "")
+        & (cleaned["Movie Name"] != "")
+        & (cleaned["Genre"] != "")
     ]
 
     cleaned = cleaned.drop_duplicates(
-        subset=["Movie Name", "Genre"], keep="first"
+        subset=["IMDb ID", "Genre"], keep="first"
     )
+
+    cleaned = cleaned[
+        cleaned["Ratings"].isna()
+        | cleaned["Ratings"].between(0, 10)
+    ]
+    cleaned = cleaned[
+        cleaned["Voting Counts"].isna()
+        | (cleaned["Voting Counts"] >= 0)
+    ]
+    cleaned = cleaned[
+        cleaned["Duration"].isna()
+        | cleaned["Duration"].between(1, 600)
+    ]
 
     cleaned = cleaned.sort_values(
         by=["Genre", "Movie Name"],
@@ -106,11 +123,12 @@ def combine_genres(series):
 
 
 def build_master_data(genre_dataframe):
-    """Create one unique row per movie for overall analysis and SQL."""
+    """Create one unique row per IMDb ID for overall analysis and SQL."""
     master = (
-        genre_dataframe.groupby("Movie Name", as_index=False)
+        genre_dataframe.groupby("IMDb ID", as_index=False)
         .agg(
             {
+                "Movie Name": first_valid,
                 "Genre": combine_genres,
                 "Ratings": first_valid,
                 "Voting Counts": "max",
@@ -147,6 +165,7 @@ def print_data_quality(master_dataframe):
     """Print basic data-quality information for the master dataset."""
     print("\nDATA QUALITY CHECK")
     print("-" * 45)
+    print(f"Missing IMDb IDs: {master_dataframe['IMDb ID'].isna().sum()}")
     print(f"Missing ratings: {master_dataframe['Ratings'].isna().sum()}")
     print(
         "Missing voting counts: "
@@ -154,7 +173,7 @@ def print_data_quality(master_dataframe):
     )
     print(f"Missing durations: {master_dataframe['Duration'].isna().sum()}")
 
-    print("\nFirst 5 unique movies:")
+    print("\nTop 5 movies by rating:")
     print(master_dataframe.head().to_string(index=False))
 
 
