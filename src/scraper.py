@@ -1,4 +1,4 @@
-"""Open IMDb 2024 and extract visible movie titles with Selenium."""
+"""Scrape structured IMDb 2024 movie data with Selenium."""
 
 import re
 import time
@@ -12,9 +12,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 
+GENRE = "Action"
+
 IMDB_URL = (
     "https://www.imdb.com/search/title/"
     "?title_type=feature&release_date=2024-01-01,2024-12-31"
+    "&genres=action"
 )
 
 TITLE_SELECTOR = ".ipc-title__text"
@@ -24,6 +27,45 @@ MOVIE_CARD_SELECTOR = "li.ipc-metadata-list-summary-item"
 def clean_title(raw_title):
     """Remove ranking prefixes such as '1. Movie Name'."""
     return re.sub(r"^\d+\.\s*", "", raw_title).strip()
+
+
+def convert_votes(raw_votes):
+    """Convert IMDb vote text such as 591K or 1.2M into an integer."""
+    if not raw_votes:
+        return None
+
+    value = raw_votes.strip().upper().replace(",", "")
+    multiplier = 1
+
+    if value.endswith("K"):
+        multiplier = 1_000
+        value = value[:-1]
+    elif value.endswith("M"):
+        multiplier = 1_000_000
+        value = value[:-1]
+    elif value.endswith("B"):
+        multiplier = 1_000_000_000
+        value = value[:-1]
+
+    try:
+        return int(float(value) * multiplier)
+    except ValueError:
+        return None
+
+
+def convert_duration_to_minutes(raw_duration):
+    """Convert IMDb duration text such as '2h 8m' into total minutes."""
+    if not raw_duration:
+        return None
+
+    hours_match = re.search(r"(\d+)h", raw_duration)
+    minutes_match = re.search(r"(\d+)m", raw_duration)
+
+    hours = int(hours_match.group(1)) if hours_match else 0
+    minutes = int(minutes_match.group(1)) if minutes_match else 0
+
+    total_minutes = (hours * 60) + minutes
+    return total_minutes if total_minutes else None
 
 
 def create_driver():
@@ -69,7 +111,7 @@ def find_movie_titles(driver, timeout=20):
 
 def load_imdb(driver):
     """Open IMDb and allow manual completion of human verification."""
-    print("Opening IMDb 2024 movies page...")
+    print(f"Opening IMDb 2024 {GENRE} movies page...")
 
     try:
         driver.get(IMDB_URL)
@@ -84,7 +126,7 @@ def load_imdb(driver):
     title_elements = find_movie_titles(driver, timeout=15)
 
     if title_elements:
-        return title_elements
+        return True
 
     print("\nIMDb movie data is not visible yet.")
     print("If Chrome shows 'Human Verification', complete it manually.")
@@ -94,76 +136,120 @@ def load_imdb(driver):
     print("Checking IMDb again after verification...")
     time.sleep(2)
 
-    print("Current URL:", driver.current_url)
-    print("Page title:", driver.title or "[blank]")
-
-    return find_movie_titles(driver, timeout=30)
+    return bool(find_movie_titles(driver, timeout=30))
 
 
-def extract_titles(elements):
-    """Convert Selenium title elements into a clean unique title list."""
-    titles = []
-    seen = set()
+def extract_title(card):
+    """Extract and clean the movie title from one result card."""
+    elements = card.find_elements(By.CSS_SELECTOR, TITLE_SELECTOR)
 
-    for element in elements:
-        raw_title = element.text.strip()
+    if not elements:
+        return None
 
-        if not raw_title:
-            continue
-
-        title = clean_title(raw_title)
-
-        if title and title not in seen:
-            seen.add(title)
-            titles.append(title)
-
-    return titles
+    return clean_title(elements[0].text)
 
 
-def print_first_movie_card(driver):
-    """Print visible text from the first IMDb result card for inspection."""
+def extract_duration(card_text):
+    """Extract duration text such as '2h 8m' or '95m' from card text."""
+    match = re.search(r"\b(?:\d+h(?:\s*\d+m)?|\d+m)\b", card_text)
+    return match.group(0) if match else None
+
+
+def extract_rating(card_text):
+    """Extract IMDb rating from the visible lines of a movie card."""
+    for line in card_text.splitlines():
+        value = line.strip()
+
+        if re.fullmatch(r"(?:10(?:\.0)?|[0-9](?:\.[0-9])?)", value):
+            number = float(value)
+
+            if 0 <= number <= 10:
+                return number
+
+    return None
+
+
+def extract_votes(card_text):
+    """Extract vote text such as '(591K)' from a movie card."""
+    match = re.search(r"\(([\d,.]+\s*[KMB]?)\)", card_text, re.IGNORECASE)
+
+    if not match:
+        return None
+
+    return match.group(1).replace(" ", "")
+
+
+def extract_movie_record(card, genre):
+    """Convert one IMDb result card into a structured movie dictionary."""
+    card_text = card.text
+
+    movie_name = extract_title(card)
+    duration_text = extract_duration(card_text)
+    rating = extract_rating(card_text)
+    votes_text = extract_votes(card_text)
+
+    if not movie_name:
+        return None
+
+    return {
+        "Movie Name": movie_name,
+        "Genre": genre,
+        "Ratings": rating,
+        "Voting Counts": convert_votes(votes_text),
+        "Duration": convert_duration_to_minutes(duration_text),
+    }
+
+
+def scrape_visible_movies(driver, genre):
+    """Extract structured records from all currently visible IMDb cards."""
     cards = driver.find_elements(By.CSS_SELECTOR, MOVIE_CARD_SELECTOR)
+    movies = []
 
-    print("\nFIRST MOVIE CARD DATA")
+    for card in cards:
+        record = extract_movie_record(card, genre)
+
+        if record:
+            movies.append(record)
+
+    return movies
+
+
+def print_first_record(movies):
+    """Print the first structured movie record for validation."""
+    print("\nFIRST STRUCTURED MOVIE RECORD")
     print("-" * 50)
 
-    if not cards:
-        print("No movie cards found with the current selector.")
+    if not movies:
+        print("No structured movie records were extracted.")
         print("-" * 50)
         return
 
-    print(cards[0].text)
+    first_movie = movies[0]
+
+    for key, value in first_movie.items():
+        print(f"{key}: {value}")
+
     print("-" * 50)
 
 
 def main():
-    """Launch Chrome and print visible IMDb 2024 movie titles."""
+    """Launch Chrome and extract visible IMDb 2024 Action movies."""
     driver = None
 
     try:
         print("Starting Chrome...")
         driver = create_driver()
 
-        title_elements = load_imdb(driver)
-
-        if not title_elements:
-            print("\nIMDb movie titles still could not be detected.")
+        if not load_imdb(driver):
+            print("\nIMDb movie data still could not be detected.")
             save_debug_files(driver)
             input("\nPress Enter to close Chrome...")
             return
 
-        titles = extract_titles(title_elements)
+        movies = scrape_visible_movies(driver, GENRE)
 
-        print(f"\nTitle elements found: {len(title_elements)}")
-        print("\nIMDb 2024 Movies")
-        print("-" * 50)
-
-        for number, title in enumerate(titles, start=1):
-            print(f"{number}. {title}")
-
-        print(f"\nMovie titles extracted: {len(titles)}")
-
-        print_first_movie_card(driver)
+        print(f"\nStructured movie records extracted: {len(movies)}")
+        print_first_record(movies)
 
         input("\nPress Enter to close Chrome...")
 
