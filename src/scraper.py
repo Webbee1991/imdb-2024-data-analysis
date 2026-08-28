@@ -34,6 +34,7 @@ BASE_URL = (
 )
 
 TITLE_SELECTOR = ".ipc-title__text"
+TITLE_LINK_SELECTOR = "a.ipc-title-link-wrapper"
 MOVIE_CARD_SELECTOR = "li.ipc-metadata-list-summary-item"
 
 
@@ -164,6 +165,19 @@ def extract_title(card):
     return clean_title(elements[0].text)
 
 
+def extract_imdb_id(card):
+    """Extract the unique IMDb title ID, such as tt6263850, from a card link."""
+    links = card.find_elements(By.CSS_SELECTOR, TITLE_LINK_SELECTOR)
+
+    if not links:
+        return None
+
+    href = links[0].get_attribute("href") or ""
+    match = re.search(r"/title/(tt\d+)/", href)
+
+    return match.group(1) if match else None
+
+
 def extract_duration(card_text):
     """Extract runtime safely even when IMDb joins year and duration."""
     year_runtime_match = re.search(
@@ -210,15 +224,17 @@ def extract_movie_record(card, genre):
     """Convert one IMDb result card into a structured movie dictionary."""
     card_text = card.text
 
+    imdb_id = extract_imdb_id(card)
     movie_name = extract_title(card)
     duration_text = extract_duration(card_text)
     rating = extract_rating(card_text)
     votes_text = extract_votes(card_text)
 
-    if not movie_name:
+    if not imdb_id or not movie_name:
         return None
 
     return {
+        "IMDb ID": imdb_id,
         "Movie Name": movie_name,
         "Genre": genre,
         "Ratings": rating,
@@ -250,6 +266,7 @@ def save_movies_to_csv(movies, genre):
     output_path = output_dir / f"{safe_genre}_movies.csv"
 
     columns = [
+        "IMDb ID",
         "Movie Name",
         "Genre",
         "Ratings",
