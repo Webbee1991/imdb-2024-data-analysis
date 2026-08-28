@@ -1,4 +1,4 @@
-"""Scrape structured IMDb 2024 movie data genre by genre with Selenium."""
+"""Scrape IMDb 2024 movie data genre by genre with Selenium."""
 
 import re
 import time
@@ -34,13 +34,16 @@ BASE_URL = (
 )
 
 TITLE_SELECTOR = ".ipc-title__text"
-TITLE_LINK_SELECTOR = "a.ipc-title-link-wrapper"
 MOVIE_CARD_SELECTOR = "li.ipc-metadata-list-summary-item"
 LOAD_MORE_SELECTOR = "button.ipc-see-more__button"
 
-# Test mode: click IMDb's Load More button only once per genre.
-# After this logic is verified, we will remove this limit.
-MAX_LOAD_MORE_CLICKS = 1
+REQUIRED_COLUMNS = [
+    "Movie Name",
+    "Genre",
+    "Ratings",
+    "Voting Counts",
+    "Duration",
+]
 
 
 def build_genre_url(genre_slug):
@@ -54,7 +57,7 @@ def clean_title(raw_title):
 
 
 def convert_votes(raw_votes):
-    """Convert IMDb vote text such as 591K or 1.2M into an integer."""
+    """Convert vote text such as 591K or 1.2M into an integer."""
     if not raw_votes:
         return None
 
@@ -146,9 +149,7 @@ def load_genre_page(driver, genre, genre_slug):
 
     time.sleep(3)
 
-    title_elements = find_movie_titles(driver, timeout=15)
-
-    if title_elements:
+    if find_movie_titles(driver, timeout=15):
         return True
 
     print(f"IMDb data for {genre} is not visible yet.")
@@ -161,7 +162,7 @@ def load_genre_page(driver, genre, genre_slug):
 
 
 def find_load_more_button(driver):
-    """Return IMDb's visible Load More button when one is available."""
+    """Return IMDb's visible Load More button when available."""
     buttons = driver.find_elements(By.CSS_SELECTOR, LOAD_MORE_SELECTOR)
 
     for button in reversed(buttons):
@@ -174,25 +175,18 @@ def find_load_more_button(driver):
     return None
 
 
-def load_more_movies(driver, genre):
-    """Load an additional batch of movie cards for one genre."""
-    click_count = 0
-
-    while click_count < MAX_LOAD_MORE_CLICKS:
+def load_all_movies(driver, genre):
+    """Keep loading IMDb results until no more movie cards are available."""
+    while True:
         button = find_load_more_button(driver)
 
         if button is None:
-            print(f"No Load More button found for {genre}.")
             break
 
         previous_count = len(
             driver.find_elements(By.CSS_SELECTOR, MOVIE_CARD_SELECTOR)
         )
-
-        print(
-            f"{genre}: {previous_count} cards visible. "
-            "Clicking Load More..."
-        )
+        print(f"{genre}: {previous_count} cards loaded. Loading more...")
 
         try:
             driver.execute_script(
@@ -215,24 +209,17 @@ def load_more_movies(driver, genre):
                 )
                 > previous_count
             )
-
         except TimeoutException:
-            print(
-                f"{genre}: Load More was clicked, but no new cards "
-                "appeared within the timeout."
-            )
+            print(f"{genre}: no additional movie cards were loaded.")
             break
         except WebDriverException as error:
-            print(f"{genre}: Could not click Load More: {error}")
+            print(f"{genre}: could not load more movies: {error}")
             break
 
-        click_count += 1
-        current_count = len(
-            driver.find_elements(By.CSS_SELECTOR, MOVIE_CARD_SELECTOR)
-        )
-        print(f"{genre}: movie cards increased to {current_count}.")
-
-    return len(driver.find_elements(By.CSS_SELECTOR, MOVIE_CARD_SELECTOR))
+    final_count = len(
+        driver.find_elements(By.CSS_SELECTOR, MOVIE_CARD_SELECTOR)
+    )
+    print(f"{genre}: {final_count} movie cards available for scraping.")
 
 
 def extract_title(card):
@@ -243,19 +230,6 @@ def extract_title(card):
         return None
 
     return clean_title(elements[0].text)
-
-
-def extract_imdb_id(card):
-    """Extract the unique IMDb title ID, such as tt6263850, from a card link."""
-    links = card.find_elements(By.CSS_SELECTOR, TITLE_LINK_SELECTOR)
-
-    if not links:
-        return None
-
-    href = links[0].get_attribute("href") or ""
-    match = re.search(r"/title/(tt\d+)/", href)
-
-    return match.group(1) if match else None
 
 
 def extract_duration(card_text):
@@ -301,20 +275,18 @@ def extract_votes(card_text):
 
 
 def extract_movie_record(card, genre):
-    """Convert one IMDb result card into a structured movie dictionary."""
+    """Convert one IMDb result card into the required project fields."""
     card_text = card.text
 
-    imdb_id = extract_imdb_id(card)
     movie_name = extract_title(card)
     duration_text = extract_duration(card_text)
     rating = extract_rating(card_text)
     votes_text = extract_votes(card_text)
 
-    if not imdb_id or not movie_name:
+    if not movie_name:
         return None
 
     return {
-        "IMDb ID": imdb_id,
         "Movie Name": movie_name,
         "Genre": genre,
         "Ratings": rating,
@@ -323,8 +295,8 @@ def extract_movie_record(card, genre):
     }
 
 
-def scrape_visible_movies(driver, genre):
-    """Extract structured records from all currently visible IMDb cards."""
+def scrape_movies(driver, genre):
+    """Extract the required fields from all loaded IMDb movie cards."""
     cards = driver.find_elements(By.CSS_SELECTOR, MOVIE_CARD_SELECTOR)
     movies = []
 
@@ -338,23 +310,14 @@ def scrape_visible_movies(driver, genre):
 
 
 def save_movies_to_csv(movies, genre):
-    """Save structured movie records to a genre-specific CSV file."""
+    """Save one genre-specific CSV with the required project columns."""
     output_dir = Path("data/genre")
     output_dir.mkdir(parents=True, exist_ok=True)
 
     safe_genre = genre.lower().replace(" ", "_").replace("-", "_")
     output_path = output_dir / f"{safe_genre}_movies.csv"
 
-    columns = [
-        "IMDb ID",
-        "Movie Name",
-        "Genre",
-        "Ratings",
-        "Voting Counts",
-        "Duration",
-    ]
-
-    dataframe = pd.DataFrame(movies, columns=columns)
+    dataframe = pd.DataFrame(movies, columns=REQUIRED_COLUMNS)
     dataframe.to_csv(output_path, index=False)
 
     print(f"Saved {len(dataframe)} rows -> {output_path}")
@@ -374,9 +337,8 @@ def scrape_all_genres(driver):
             summary.append((genre, 0))
             continue
 
-        load_more_movies(driver, genre)
-
-        movies = scrape_visible_movies(driver, genre)
+        load_all_movies(driver, genre)
+        movies = scrape_movies(driver, genre)
         row_count = save_movies_to_csv(movies, genre) if movies else 0
         summary.append((genre, row_count))
 
@@ -384,7 +346,7 @@ def scrape_all_genres(driver):
 
 
 def print_summary(summary):
-    """Print a compact summary of all generated genre CSV files."""
+    """Print a summary of all generated genre CSV files."""
     print("\nGENRE SCRAPING SUMMARY")
     print("-" * 40)
 
@@ -399,7 +361,7 @@ def print_summary(summary):
 
 
 def main():
-    """Launch Chrome, scrape configured IMDb genres, and save CSV files."""
+    """Launch Chrome, scrape IMDb genres, and save genre CSV files."""
     driver = None
 
     try:
