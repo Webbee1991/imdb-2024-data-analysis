@@ -70,8 +70,8 @@ def open_imdb_page():
             if title:
                 titles.append(title)
 
-        print("\nFirst visible movie titles:")
-        for number, title in enumerate(titles[:10], start=1):
+        print("\nAll visible movie titles:")
+        for number, title in enumerate(titles, start=1):
             print(f"{number}. {title}")
 
         print(f"\nMovie titles extracted: {len(titles)}")
