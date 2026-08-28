@@ -1,4 +1,4 @@
-"""Merge and clean genre-wise IMDb 2024 CSV files."""
+"""Merge and clean genre-wise IMDb 2026 CSV files."""
 
 from pathlib import Path
 
@@ -7,7 +7,7 @@ import pandas as pd
 
 GENRE_DIR = Path("data/genre")
 CLEANED_DIR = Path("data/cleaned")
-OUTPUT_FILE = CLEANED_DIR / "imdb_2024_movies.csv"
+OUTPUT_FILE = CLEANED_DIR / "imdb_2026_movies.csv"
 
 REQUIRED_COLUMNS = [
     "Movie Name",
@@ -119,7 +119,10 @@ def print_data_quality(dataframe):
         f"{dataframe['Voting Counts'].isna().sum()}"
     )
     print(f"Missing durations: {dataframe['Duration'].isna().sum()}")
-    print(f"Duplicate movie-genre rows: {dataframe.duplicated(['Movie Name', 'Genre']).sum()}")
+    print(
+        "Duplicate movie-genre rows: "
+        f"{dataframe.duplicated(['Movie Name', 'Genre']).sum()}"
+    )
 
     print("\nFirst 5 cleaned rows:")
     print(dataframe.head().to_string(index=False))
