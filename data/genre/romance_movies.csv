@@ -1,0 +1,604 @@
+Movie Name,Genre,Ratings,Voting Counts,Duration
+The Invite,Romance,7.5,53000.0,107.0
+Teenage Sex and Death at Camp Miasma,Romance,7.2,6600.0,112.0
+The Drama,Romance,7.1,118000.0,105.0
+One Night Only,Romance,6.3,4900.0,102.0
+Toxic,Romance,3.7,10000.0,192.0
+Awarapan 2,Romance,6.6,12000.0,140.0
+I Want Your Sex,Romance,6.4,2300.0,90.0
+Cocktail 2,Romance,6.6,30000.0,150.0
+Voicemails for Isabelle,Romance,7.3,50000.0,118.0
+The Dink,Romance,6.1,9800.0,102.0
+Practical Magic 2,Romance,,,110.0
+Leviticus,Romance,6.4,15000.0,88.0
+Main Vaapas Aaunga,Romance,8.0,12000.0,167.0
+Wuthering Heights,Romance,6.1,90000.0,136.0
+Here the Whole Time,Romance,7.0,1300.0,100.0
+Vishwanath and Sons,Romance,7.6,2700.0,161.0
+Wicker,Romance,7.5,284.0,105.0
+People We Meet on Vacation,Romance,6.6,52000.0,117.0
+Solo Mio,Romance,6.6,15000.0,96.0
+The Last Sunrise,Romance,5.7,1200.0,106.0
+Office Romance,Romance,5.8,23000.0,114.0
+Bethlehem Kudumba Unit,Romance,8.4,4300.0,157.0
+DC,Romance,8.3,5000.0,141.0
+Reminders of Him,Romance,6.3,12000.0,114.0
+The Bride!,Romance,5.6,37000.0,126.0
+Chennai Love Story,Romance,7.1,2900.0,180.0
+Finding Emily,Romance,6.9,4100.0,111.0
+Pyaar Prema Kalyanam,Romance,7.4,1400.0,126.0
+Back to the 90s,Romance,4.0,416.0,92.0
+"You, Me & Tuscany",Romance,6.0,5400.0,105.0
+Girls Like Girls,Romance,6.4,2900.0,95.0
+Ishqnama,Romance,8.8,2600.0,145.0
+All Night Wrong,Romance,4.9,332.0,91.0
+All That We Never Were,Romance,5.2,409.0,107.0
+Lenin,Romance,6.2,1600.0,159.0
+40 Dates and 40 Nights,Romance,6.2,1100.0,101.0
+Your Fault: London,Romance,6.0,5000.0,123.0
+Idhayam Murali,Romance,7.2,5600.0,150.0
+La bola negra,Romance,7.3,399.0,155.0
+Heartstopper Forever,Romance,6.9,8000.0,114.0
+Boulevard,Romance,4.7,1600.0,112.0
+Gatta Kusthi 2,Romance,6.8,2800.0,154.0
+Your Heart Will Be Broken,Romance,4.8,925.0,134.0
+Peddi,Romance,5.2,9000.0,182.0
+Midwinter Break,Romance,6.0,1500.0,90.0
+The Sun Never Sets,Romance,6.7,63.0,102.0
+Kissing Is the Easy Part,Romance,6.0,1700.0,100.0
+Coward,Romance,7.2,250.0,120.0
+"Love Me, Love Me",Romance,4.3,5900.0,99.0
+No Rest for the Wicked,Romance,8.1,33.0,103.0
+29,Romance,7.7,6300.0,150.0
+The Legend of Van Dorn,Romance,7.8,54.0,
+Amor es amor,Romance,5.2,45.0,91.0
+Ram in Leela,Romance,8.6,6200.0,141.0
+Deewana,Romance,8.2,1400.0,150.0
+Hai Jawani Toh Ishq Hona Hai,Romance,4.1,13000.0,136.0
+A Love Like This,Romance,5.4,214.0,88.0
+Dacoit: A Love Story,Romance,7.4,10000.0,149.0
+Pati Patni Aur Woh Do,Romance,5.8,8900.0,117.0
+Wishful Thinking,Romance,7.4,73.0,105.0
+"Ha-Chan, Shake Your Booty!",Romance,7.2,134.0,122.0
+O' Romeo,Romance,5.2,24000.0,178.0
+Do Us Part,Romance,8.3,32.0,94.0
+"Yo, narciso",Romance,5.8,125.0,94.0
+Youth,Romance,7.0,8800.0,140.0
+The Man I Love,Romance,5.3,447.0,95.0
+Mesdames Thanh Sac,Romance,5.1,20.0,128.0
+Happy Hours,Romance,8.8,35.0,80.0
+The American Dream,Romance,7.3,1600.0,122.0
+The Raven,Romance,7.4,2500.0,97.0
+The Blood Countess,Romance,5.7,112.0,118.0
+Chand Mera Dil,Romance,6.3,7500.0,135.0
+Anbe Diana,Romance,6.2,113.0,150.0
+Srinivasa Mangapuram,Romance,3.8,141.0,150.0
+The Birthday Party,Romance,6.0,93.0,114.0
+Virginia Woolf's Night & Day,Romance,6.0,275.0,95.0
+Sing Geetham,Romance,6.6,1000.0,140.0
+Dark Secrets,Romance,7.7,32.0,118.0
+Happy Raj,Romance,6.7,1500.0,159.0
+Ek Din,Romance,6.4,1800.0,125.0
+Nibba Nibbi,Romance,8.1,1100.0,121.0
+Godari Gattupaina,Romance,7.2,1200.0,145.0
+Growth of the Soil,Romance,,,155.0
+No Place to Be Single,Romance,5.5,1200.0,103.0
+Wonderful Nightmare,Romance,6.2,293.0,121.0
+With Love,Romance,7.6,6800.0,141.0
+Double Occupancy,Romance,6.2,515.0,130.0
+Bound by Duty,Romance,7.4,56.0,
+Heartin,Romance,6.9,1200.0,119.0
+Krishnavatar Part 1: Hridayam,Romance,7.5,2200.0,150.0
+Haunted Ghosts of the Past,Romance,5.1,4000.0,140.0
+Chinna Chinna Aasai,Romance,6.5,605.0,136.0
+Sleeping Beauty Next Door,Romance,7.3,261.0,98.0
+Carousel,Romance,5.4,137.0,105.0
+Allegro Pastell,Romance,5.7,180.0,100.0
+Sweety Naughty Crazy,Romance,6.6,430.0,142.0
+How to Lose a Popularity Contest,Romance,5.4,1100.0,102.0
+F*ck Valentines Day,Romance,5.3,3200.0,95.0
+Free Fall: Who You Are,Romance,8.6,557.0,124.0
+The Lightkeeper,Romance,5.7,11.0,
+Chasing Summer,Romance,6.2,181.0,91.0
+Couple Friendly,Romance,7.1,2700.0,120.0
+No Good Men,Romance,7.4,395.0,103.0
+Wild Sing,Romance,6.0,428.0,107.0
+We Are All Strangers,Romance,7.1,139.0,157.0
+Love Language,Romance,6.6,30.0,104.0
+Tu Yaa Main,Romance,6.1,7400.0,143.0
+Goodbye Cruel World,Romance,6.3,42.0,93.0
+Hi,Romance,,,144.0
+Love Oh Love,Romance,6.6,2200.0,150.0
+All the Lovers in the Night,Romance,6.7,30.0,139.0
+Once More,Romance,,,131.0
+Oh..! Sukumari,Romance,5.2,95.0,145.0
+Ishqan De Lekhe,Romance,4.7,646.0,145.0
+In Waves,Romance,7.4,305.0,90.0
+Bedford Park,Romance,6.8,92.0,117.0
+Daadi Ki Shaadi,Romance,5.8,5800.0,155.0
+Relationship Goals,Romance,4.6,1600.0,93.0
+All That Glitters,Romance,8.8,23.0,100.0
+Maa Behen,Romance,5.5,4800.0,127.0
+My Dearest Assassin,Romance,5.7,1500.0,127.0
+Habeebi,Romance,9.2,445.0,150.0
+Detention,Romance,9.3,19.0,83.0
+Be Happy,Romance,5.9,172.0,88.0
+The Electric Kiss,Romance,6.7,589.0,122.0
+El Gawahergy,Romance,5.8,133.0,110.0
+The Violinist,Romance,7.7,17.0,114.0
+Love in Slow Motion,Romance,3.9,299.0,91.0
+Mareechika,Romance,4.8,311.0,142.0
+All My Friends Are Back in Brisbane,Romance,9.0,26.0,77.0
+Next Life,Romance,8.5,35.0,112.0
+Another Man's Wife,Romance,4.1,130.0,91.0
+Cherry and Virgin,Romance,8.7,19.0,86.0
+Nothing Between Us,Romance,5.3,269.0,90.0
+The Dangers in My Heart,Romance,7.3,299.0,101.0
+Raakaasa,Romance,6.7,4000.0,130.0
+Pavane,Romance,6.9,1800.0,113.0
+Moda Kavida Vaatavarana,Romance,7.7,1100.0,118.0
+Do Deewane Seher Mein,Romance,6.1,6000.0,138.0
+Elaichi 2 A Toxic Love Story,Romance,6.3,30.0,85.0
+The Ogre's Bride,Romance,7.3,45.0,122.0
+The Dreamed Adventure,Romance,6.3,154.0,167.0
+Khali Balak Min Nafsak,Romance,5.7,143.0,105.0
+LIK: Love Insurance Kompany,Romance,5.6,4200.0,157.0
+Come Away with Me,Romance,4.2,15.0,
+The Loved One,Romance,6.4,259.0,99.0
+Us in the End,Romance,8.7,84.0,103.0
+Love at Last,Romance,5.0,3600.0,91.0
+Sathi Leelavathi,Romance,3.6,174.0,131.0
+Tradita,Romance,,,97.0
+Öngörü,Romance,,,96.0
+Before I Do,Romance,8.5,20.0,85.0
+Band Melam,Romance,6.0,321.0,141.0
+Saqr W Kanaria,Romance,6.3,311.0,125.0
+Nari Nari Naduma Murari,Romance,5.7,3600.0,140.0
+Yaz Evi,Romance,5.4,909.0,105.0
+Bride of the Year,Romance,4.8,268.0,98.0
+Six Days in Evergreen,Romance,8.8,21.0,
+Craving My British Cowboy,Romance,7.6,59.0,117.0
+Campeón Gabacho,Romance,8.3,39.0,108.0
+Flesh and Fuel,Romance,7.1,67.0,90.0
+Sweet Candy Peach,Romance,8.6,10.0,86.0
+My Daughter,Romance,7.0,77.0,78.0
+Dan Bandung,Romance,7.7,10.0,120.0
+The Soul Mate Experiment,Romance,,,
+Bichos Raros 2,Romance,,,50.0
+Starbright,Romance,3.7,539.0,148.0
+My Dearest Señorita,Romance,6.3,1200.0,113.0
+Vaanki Chuki Love Story,Romance,7.6,51.0,156.0
+Madhuvidhu,Romance,6.5,1900.0,125.0
+Elaichi: Ek Prem Katha,Romance,4.6,47.0,87.0
+"Soumsoum, la nuit des astres",Romance,6.3,79.0,101.0
+Mr. Work from Home,Romance,4.6,1200.0,130.0
+Royally Screwed,Romance,5.6,364.0,116.0
+Rockstar,Romance,5.5,471.0,147.0
+Rahu Ketu,Romance,4.5,3300.0,140.0
+Malaikat Malam,Romance,4.8,157.0,111.0
+Achilles Returns,Romance,5.2,1600.0,50.0
+Raja the Raja,Romance,3.4,54.0,135.0
+"I Fell, It's Fine",Romance,6.2,71.0,110.0
+Sattendru Maarudhu Vaanilai,Romance,4.0,135.0,120.0
+Días de agosto,Romance,6.5,19.0,95.0
+Derby,Romance,3.5,1500.0,135.0
+Ginny Wedss Sunny 2,Romance,4.5,5400.0,134.0
+Adaraneeya Tharuwak,Romance,7.2,37.0,118.0
+Will You Be My Girlfriend?.,Romance,5.6,306.0,97.0
+Faces,Romance,6.7,2100.0,130.0
+The Devil in the Flesh,Romance,7.2,12.0,73.0
+Ilk Gençlik,Romance,,,110.0
+Nøjsomheden,Romance,7.0,11.0,
+Life Today,Romance,9.1,504.0,149.0
+Surfacing,Romance,5.3,165.0,114.0
+Peter,Romance,6.9,82.0,141.0
+Papam Pratap,Romance,4.9,1300.0,150.0
+Rinrada,Romance,5.4,14.0,108.0
+Love on Tap,Romance,8.4,27.0,90.0
+Portuguese Love,Romance,6.3,31.0,104.0
+Passengers,Romance,,,55.0
+Call of My Life,Romance,8.1,30.0,87.0
+A Werewolf Boy,Romance,7.4,86.0,125.0
+18th Rose,Romance,5.6,305.0,131.0
+Dillagi... Yeh Dillagi,Romance,,,
+Rakkhosh,Romance,4.6,664.0,142.0
+Love Mocktail 3,Romance,6.4,345.0,134.0
+Bunny!!,Romance,5.6,409.0,127.0
+She Likes to Watch,Romance,6.2,55.0,85.0
+Tera Yaar Hoon Main,Romance,3.5,43.0,146.0
+Mavka: The True Myth,Romance,5.8,307.0,90.0
+The Price of Letting Go,Romance,7.5,47.0,
+Breathe Again,Romance,5.3,100.0,87.0
+Dilan 1997,Romance,7.9,59.0,110.0
+Susana and Elvira: No Plan B,Romance,4.5,173.0,
+Cherchez La Femme,Romance,5.6,26.0,90.0
+Graamaayana,Romance,7.4,45.0,126.0
+Ai shi fen nu,Romance,6.1,11.0,
+Perfect,Romance,6.9,18.0,94.0
+Vivaah,Romance,,,101.0
+Pookie,Romance,5.3,163.0,132.0
+A Special Memory,Romance,6.5,62.0,124.0
+4 First Dates,Romance,4.6,66.0,
+Psych Siddhartha,Romance,8.3,1200.0,120.0
+The Last Flight,Romance,5.8,145.0,111.0
+Battle,Romance,6.8,1000.0,125.0
+Brave New Love,Romance,7.6,27.0,105.0
+Almost Us,Romance,8.3,32.0,102.0
+The Ultimate Hotwife Experience: Volume 2,Romance,,,227.0
+Lo Naveena,Romance,7.6,55.0,123.0
+Cult,Romance,3.4,851.0,163.0
+Lucy Schulman,Romance,7.8,16.0,
+Imaginal Disk,Romance,9.3,21.0,59.0
+Swapnasundari,Romance,9.2,410.0,137.0
+Their Town,Romance,7.3,27.0,80.0
+Blessings in Disguise,Romance,6.2,158.0,88.0
+The Dreamer Cinderella,Romance,7.8,60.0,94.0
+No Translation Required,Romance,,,
+Dil Deewana Ho Gaya,Romance,3.9,12.0,135.0
+Black Holes Suck,Romance,4.6,75.0,91.0
+Riptide,Romance,,,
+Die Ältern,Romance,6.2,179.0,104.0
+That's Her,Romance,,,95.0
+Det grönaste gräset,Romance,6.1,33.0,
+Teach Me How to Say Goodbye,Romance,8.1,52.0,
+Malik,Romance,5.7,56.0,129.0
+Marvelous Mornings,Romance,6.0,64.0,87.0
+"From Italy, with Love",Romance,4.5,156.0,100.0
+The Trouble with Mistletoe,Romance,5.3,80.0,88.0
+60 Dates in 6 Months,Romance,5.7,37.0,
+"Everyday, We Are",Romance,5.9,12.0,99.0
+Abhhiman,Romance,6.5,233.0,144.0
+Meet Me at the Eclipse,Romance,7.8,89.0,118.0
+Jolly,Romance,9.4,105.0,119.0
+Yoh! Bestie,Romance,4.2,259.0,95.0
+Nee Forever,Romance,5.4,489.0,133.0
+Seetha Payanam,Romance,5.1,2300.0,150.0
+Rakky,Romance,9.3,413.0,122.0
+Vsi vidtinky spokusy,Romance,3.7,183.0,90.0
+It Takes a Village,Romance,4.7,415.0,95.0
+Hidden Enemy,Romance,6.7,149.0,108.0
+Vishnu Vinyasam,Romance,4.8,513.0,130.0
+Viva,Romance,6.0,100.0,113.0
+Anakapalli,Romance,,,154.0
+Until She Remembers,Romance,5.6,29.0,107.0
+Bhishmar,Romance,3.8,1200.0,142.0
+Ramani Kalyanam,Romance,7.3,395.0,130.0
+Lagan Laagii Re,Romance,8.3,81.0,166.0
+Aria-Remix,Romance,5.4,56.0,91.0
+93 'Til,Romance,,,
+It's OK,Romance,6.6,306.0,118.0
+A Royal Romance in Ibiza,Romance,4.4,47.0,
+Mango Pachcha,Romance,8.5,39.0,95.0
+I Rarely Wake Up Dreaming,Romance,6.1,17.0,110.0
+Blue Emanuelle,Romance,5.1,68.0,67.0
+Only Rebels Win,Romance,6.4,65.0,105.0
+Kupilih Jalur Langit,Romance,6.1,14.0,98.0
+Charukesi,Romance,6.0,433.0,146.0
+No Kids,Romance,5.9,96.0,100.0
+Kadhal Reset Repeat,Romance,4.9,2200.0,135.0
+Kimi to Hanabi to Yakusoku to,Romance,9.2,5.0,96.0
+"Toh, Ti ani Fuji",Romance,5.0,109.0,125.0
+Bride for the Quarterback,Romance,8.2,320.0,
+Birds of War,Romance,8.0,83.0,85.0
+No Evidence of Man,Romance,7.7,28.0,94.0
+Black Burns Fast,Romance,6.9,52.0,96.0
+Era Uma Vez Minha 1ª Vez,Romance,,,
+Love on a Tightrope,Romance,7.5,26.0,115.0
+Melodrama,Romance,7.2,12.0,
+I Swallowed My Ex's Mafia Daddy Whole,Romance,4.9,10.0,86.0
+O Advogado de Deus,Romance,5.8,35.0,117.0
+The Crush,Romance,5.1,38.0,105.0
+Instante,Romance,5.7,15.0,95.0
+Where Fireflies Dance,Romance,,,
+Crossing a Dawn,Romance,6.4,59.0,103.0
+The Lonely Crowd,Romance,8.0,82.0,105.0
+Ilk Askin Tohumlari,Romance,,,75.0
+I Swiped the Wrong One,Romance,6.8,7.0,
+No Other Love,Romance,6.1,154.0,119.0
+Again Again,Romance,7.6,23.0,99.0
+Cleopatra Queen of Egypt,Romance,,,90.0
+Disolution,Romance,3.0,141.0,84.0
+Mylanji,Romance,5.0,345.0,60.0
+Short Fuse,Romance,8.9,63.0,100.0
+Under the Western Skies,Romance,9.4,32.0,
+The Male Gaze: Naughty Boys,Romance,6.1,32.0,94.0
+Finding Mojo,Romance,5.8,13.0,139.0
+Something You Should Know About Me,Romance,9.2,12.0,85.0
+Delivery Boy Pizza on Time,Romance,3.9,33.0,101.0
+Shamshon W Dalila,Romance,3.1,72.0,95.0
+Love in Paradise,Romance,5.9,192.0,
+Wakesurf Lovers,Romance,,,109.0
+Sophie's Hot Robot,Romance,6.7,14.0,
+Trassa «More - more»,Romance,3.1,37.0,85.0
+Replica,Romance,6.9,24.0,91.0
+Noches Solitarias,Romance,8.9,57.0,
+Away with Words,Romance,6.7,41.0,99.0
+Project Baby,Romance,,,110.0
+Lilla Marie,Romance,,,85.0
+Mobuko no Koi,Romance,8.7,18.0,122.0
+The Baby Clause,Romance,,,
+She Who Must Not Be Named,Romance,7.5,11.0,116.0
+Blossoming Love,Romance,,,91.0
+Mon Maaney Na,Romance,7.2,13.0,169.0
+"Us, Maybe",Romance,,,68.0
+"Angels, They Are Amongst Us",Romance,,,129.0
+Tell Me What You Feel,Romance,5.7,37.0,104.0
+The Wedding Entertainer (The Tale of Moishe Badhan),Romance,3.7,130.0,103.0
+Bo me zhi wo de qing chun zhu le gui,Romance,5.2,12.0,99.0
+Balas Budi,Romance,5.2,32.0,88.0
+Khan Tumhara,Romance,,,135.0
+Ahlan Singapore,Romance,4.9,24.0,96.0
+Almost Us,Romance,,,80.0
+Ask mi Para Mi?,Romance,,,
+Kai nesitiki,Romance,7.0,140.0,82.0
+The Forbidden the Affair,Romance,,,138.0
+Love Punch!,Romance,6.5,38.0,102.0
+Dooradarshini,Romance,5.0,2100.0,125.0
+Dear Radhi,Romance,4.8,316.0,130.0
+Kalpana,Romance,,,
+Shaka Oh Shaka,Romance,9.1,14.0,123.0
+Hidden Fixation,Romance,4.7,49.0,53.0
+The Optimist,Romance,,,51.0
+Christmas on the North Pole Express,Romance,,,78.0
+Ghostfluencer,Romance,5.4,9.0,105.0
+Ephemera,Romance,6.8,19.0,83.0
+A Table for Two,Romance,6.4,76.0,98.0
+Baga,Romance,,,
+The Purest Form,Romance,8.9,13.0,92.0
+My CEO Thinks I'm a Robot,Romance,,,55.0
+Same Day Error,Romance,,,45.0
+A Year in London,Romance,6.0,8.0,90.0
+How I Became His Virgin Muse,Romance,6.2,15.0,
+The Last Song You Left Behind,Romance,6.2,43.0,117.0
+Tajmahal,Romance,6.6,13.0,78.0
+Thit-thee Khu,Romance,7.0,17.0,98.0
+Kheyter,Romance,4.5,34.0,82.0
+Aasai,Romance,,,139.0
+Upon Her Lips: She Likes Girls,Romance,,,
+Where Beauty Hides,Romance,,,
+Kingston,Romance,,,96.0
+Luv Di Saun,Romance,2.3,44.0,144.0
+Pillow Armor,Romance,4.6,12.0,95.0
+Zhi Ai Ni,Romance,,,
+Love Seasons,Romance,8.3,335.0,145.0
+The Nutcracker Wish,Romance,,,90.0
+Roditelskiy dom,Romance,5.1,50.0,97.0
+L'amor fuggente,Romance,,,
+Pal Bhar Ke Liye,Romance,,,
+Rewrite,Romance,,,56.0
+Teri Maya,Romance,7.6,6.0,127.0
+Petty,Romance,,,110.0
+To Her Beat,Romance,6.8,9.0,
+Sumathi Sathakam,Romance,6.7,3000.0,145.0
+3 Good Guys,Romance,4.8,13.0,107.0
+Tholaivil Oru Kadhal,Romance,7.1,9.0,95.0
+Tides,Romance,,,
+Missouri,Romance,,,45.0
+Miss Matched,Romance,,,113.0
+Love Go Go Go!,Romance,6.7,23.0,112.0
+Love is on the Way,Romance,,,89.0
+Blood & Ice,Romance,7.9,8.0,
+30-Year-Old Freshman,Romance,8.6,12.0,
+Sadali,Romance,7.6,20.0,89.0
+A Little Dream of Me,Romance,7.8,123.0,137.0
+K sebe nezhno,Romance,5.3,80.0,108.0
+Za lyubov,Romance,,,91.0
+Volver a los 17,Romance,,,95.0
+Jazz Intimacy,Romance,7.0,12.0,
+Amor entre estantes,Romance,8.7,6.0,115.0
+Zumeca,Romance,,,
+I Seduced My Older Therapist,Romance,7.4,9.0,
+Na Jaane Kaun Aa Gaya,Romance,6.3,2200.0,113.0
+Five Month Trial,Romance,,,
+Nesvyataya Valentina,Romance,4.0,45.0,104.0
+Kassa nevest,Romance,,,88.0
+8v40,Romance,,,
+Airport Blvd,Romance,,,
+ForeFans,Romance,,,
+Little Flowers,Romance,5.0,21.0,105.0
+Chandra,Romance,,,
+A Beautiful Breakup,Romance,6.0,454.0,92.0
+Delhi Gate,Romance,6.4,6.0,137.0
+Everything As It Should Be,Romance,6.3,8.0,101.0
+Ewigi Liebi,Romance,6.1,35.0,
+Deixa Acontecer,Romance,5.9,13.0,
+When Will You Get Divorced?,Romance,3.6,88.0,
+Panyi I Sea You,Romance,7.4,9.0,
+Heart 'N' SOUL,Romance,,,
+Velleppam,Romance,3.0,25.0,127.0
+80 udarov v minutu,Romance,,,93.0
+Bhalobashi Hoyni Bola,Romance,,,
+Charitha Kamakshi,Romance,6.7,28.0,90.0
+Notes for Tomorrow,Romance,6.4,6.0,
+First Desires,Romance,,,
+My Mystery Romance,Romance,4.0,44.0,86.0
+Worm,Romance,7.9,11.0,85.0
+Tapped,Romance,6.9,18.0,
+Io+Te,Romance,6.0,7.0,86.0
+The Ink-Stained Hand and the Missing Thumb,Romance,,,127.0
+Egg,Romance,,,
+Airy in Busan,Romance,5.2,10.0,100.0
+Prema Yudham,Romance,9.2,1000.0,119.0
+Kadhal Aura - Madness of Love,Romance,,,143.0
+Tera Mera Nata,Romance,4.9,7.0,116.0
+Come il giorno e la notte,Romance,,,
+Your Man Will be Mine,Romance,,,75.0
+Tanya i kosmonavt,Romance,,,
+Across the Universe,Romance,,,46.0
+Akad Yang Hilang,Romance,7.5,8.0,85.0
+Strings,Romance,6.4,7.0,
+House of Criticism,Romance,,,83.0
+My Waiter Husband: Too Rich to be True,Romance,,,70.0
+Sultan's Heart,Romance,7.1,16.0,
+Kata Hati,Romance,5.9,18.0,110.0
+Tu Nombre En El Papel,Romance,7.8,5.0,102.0
+The One Thing,Romance,,,90.0
+Naxos,Romance,8.8,5.0,89.0
+Nuptials,Romance,4.2,12.0,88.0
+Between Us,Romance,,,89.0
+Pankh Hote to Udd Jate,Romance,,,130.0
+Red,Romance,,,
+"Nos veremos esta noche, mi amor",Romance,7.8,28.0,79.0
+Vo Ladki,Romance,7.2,6.0,
+Instaboys,Romance,,,95.0
+Bloom,Romance,,,
+GetAway,Romance,,,87.0
+Tyulpany,Romance,4.5,49.0,89.0
+Varugai Pathivedu,Romance,7.1,7.0,123.0
+Between Arms,Romance,,,75.0
+Eto vsyo ona!,Romance,,,
+Dokonalý den,Romance,,,89.0
+Sachien Loves Shalini,Romance,,,103.0
+Drug,Romance,,,100.0
+Surya Power of Love,Romance,3.4,619.0,128.0
+Niko,Romance,,,111.0
+Our Lovely Asian Daughter,Romance,,,76.0
+Single Before Christmas,Romance,,,
+Sarkari Damad,Romance,8.4,8.0,170.0
+Yamaguchi-kun wa Warukuna,Romance,,,96.0
+Golden Romance,Romance,,,
+Bidadari Surga,Romance,,,80.0
+Love Bites,Romance,,,60.0
+Laagni No Melo,Romance,6.9,109.0,153.0
+Sereng,Romance,,,160.0
+Everything You Are (Producer's Cut),Romance,5.5,16.0,103.0
+Trouble Shooter,Romance,,,89.0
+The Ghost Who Stayed to Get Married,Romance,6.7,6.0,
+Washed Up,Romance,,,
+Broken Harmony,Romance,5.8,7.0,121.0
+Coming Home for Christmas,Romance,,,60.0
+Dodmansa,Romance,6.7,208.0,143.0
+De Volta à Bahia,Romance,,,98.0
+The Distance We Drift,Romance,,,90.0
+Wish You Well,Romance,5.2,18.0,108.0
+Harmony Streets,Romance,,,85.0
+Far Away Close to You,Romance,8.4,30.0,95.0
+One Last Ride,Romance,,,
+No Place to Hide,Romance,,,107.0
+Antas 2,Romance,,,
+De vuelta a los 80,Romance,,,100.0
+It's All Good,Romance,5.9,48.0,91.0
+A Story About You,Romance,,,90.0
+Khate Nejat,Romance,1.6,12.0,113.0
+Love Last Chance,Romance,,,103.0
+Age's of love,Romance,,,62.0
+Kanna Muchhe,Romance,,,110.0
+Yu wen de zi wei,Romance,,,120.0
+Hum tum phir milenge,Romance,,,
+Ring of Love,Romance,,,
+Table for Two,Romance,,,
+Tu Male to Utssav,Romance,6.3,13.0,129.0
+Aegean Love,Romance,8.0,6.0,90.0
+Mot Thoi Ta Da Yeu,Romance,3.0,5.0,119.0
+Man Atla Manatla,Romance,9.1,382.0,148.0
+Sweet Escape,Romance,,,
+Pyaar Prema Pei,Romance,,,45.0
+Labios de Fresa,Romance,,,90.0
+Baska,Romance,4.5,28.0,93.0
+Huyen Tinh Da Trach,Romance,,,113.0
+Chop Breakfast,Romance,,,
+Urabba,Romance,,,119.0
+Roommate,Romance,,,
+Po vecerce,Romance,7.3,7.0,107.0
+Stories About Us: What you won't do for love Vol. 1,Romance,,,
+Daak Khana,Romance,,,
+The Love that Built Us,Romance,,,90.0
+The Killing of Otsuya,Romance,,,87.0
+Christmas Is Over,Romance,8.8,56.0,
+The Promise,Romance,8.9,8.0,
+The Boy Who Counted Cars,Romance,,,104.0
+Chamcham,Romance,,,111.0
+Laughing Hearts,Romance,,,129.0
+In Case...,Romance,,,
+Wheels of the Heart,Romance,,,140.0
+Dhairye Sahase Amrutha,Romance,,,
+Suntu Gutuc' - Love Game,Romance,,,
+The Bard of Castle Combe,Romance,,,20.0
+Baska 2,Romance,4.5,13.0,110.0
+Pace Yourself,Romance,,,97.0
+A Place with You,Romance,,,
+Rent a Romance,Romance,,,132.0
+Gulkandi,Romance,,,
+Rah E Guzar,Romance,,,
+Oh Laila Tere Peeche Padd Gaye Apni Jaan Nisaar Kar Gaye,Romance,,,
+Love Yourself,Romance,,,
+Xi xiang ji,Romance,,,
+A Bet's a Bet,Romance,,,86.0
+An LA Christmas Story,Romance,,,100.0
+Shiuli,Romance,8.9,8.0,113.0
+Hourglass,Romance,,,38.0
+Mengejar Zara,Romance,,,99.0
+The Pages of My Heart: The Director's Cut,Romance,,,
+The Shape of Invisible Skies,Romance,8.4,9.0,118.0
+Turntable,Romance,,,100.0
+Hasta que la verdad los separe,Romance,,,65.0
+The Prediction,Romance,,,
+In Every Moment I Look for You,Romance,,,55.0
+Sattendru Maarudhu Vaanilai,Romance,,,135.0
+A Long Marathon,Romance,,,124.0
+Look My Way,Romance,,,62.0
+Too Much Too Soon,Romance,5.1,9.0,
+You're Doing it Wrong,Romance,,,55.0
+Ai de lian xi sheng,Romance,,,93.0
+Bromance Kadhal,Romance,,,143.0
+She Gets Me,Romance,,,
+Poyla Baishakh,Romance,,,159.0
+Manny My Man,Romance,,,122.0
+Thata Thai Gayu Tata Thaiya,Romance,7.5,6.0,117.0
+Wagon Wheel,Romance,,,
+Take Care,Romance,,,
+Bhuter Prem,Romance,,,107.0
+Borisailla Pori,Romance,,,115.0
+Lo que intentamos ser.,Romance,,,104.0
+Utsaber Ratri,Romance,,,74.0
+"F*ck You, Love",Romance,2.8,18.0,140.0
+Noite Azul,Romance,,,91.0
+The Heart and the Crown,Romance,,,
+Romeo & Juliet: An East Side Story,Romance,,,82.0
+Mathe Male Hoyyuthide,Romance,6.6,109.0,120.0
+Parijaat,Romance,,,
+Mystery in Bloom,Romance,,,
+Loving Amina,Romance,,,
+East West Love,Romance,,,
+Paraíso para dos,Romance,,,
+Couple Goals,Romance,,,
+Alone at Heart,Romance,,,
+Untitled Stripper Project,Romance,,,70.0
+Still,Romance,,,
+Extra Large,Romance,,,121.0
+Boxed,Romance,,,78.0
+Asymptotes,Romance,8.1,11.0,78.0
+Just Our Luck,Romance,,,
+Ahsaas (A Love Story),Romance,,,
+Almost Love,Romance,,,100.0
+Asurana Kaiyalli Parijata,Romance,7.0,104.0,
+Eighteen years of love,Romance,,,
+Parityag Patrak,Romance,,,82.0
+The Adventures of Gabriel and Marcy,Romance,,,85.0
+Krazy Kadhal,Romance,,,103.0
+Notebook,Romance,,,
+Oh my Kadhaley,Romance,,,
+African Bodyguard,Romance,,,
+Fem-Ship,Romance,,,
+Companion of the Evenings,Romance,,,62.0
+Everything Glamouring,Romance,,,77.0
+Trevor,Romance,,,127.0
+Lockdown,Romance,,,
+Chill Macha,Romance,,,103.0
+Myth 26,Romance,,,
+Ishq Manzoor,Romance,,,
+Harta Ishq,Romance,,,65.0
+Two Rooms,Romance,,,299.0
+Love d'Été,Romance,,,
+Bu Li Bu Qi,Romance,,,75.0
+Almost Kadhal,Romance,,,103.0
+Jaanleva Ishq,Romance,,,120.0
+Haye Hukku Haye Hukku Haaye Haaye Haaye,Romance,,,
+Fei Zheng Chang Shi Hun,Romance,,,
+The Shut Up Fairy,Romance,,,124.0
+Gaixieguizheng,Romance,,,110.0
+Sans Toote Par Saath Na Chhoote,Romance,,,131.0
+Di Lemon! Di Musical: The True Story of the Man Who Introduced Vanilla to Hollywood,Romance,,,86.0
+Lajjawati,Romance,,,130.0
+Thomy e Milly,Romance,,,88.0
+Gahero aa Ishq,Romance,,,121.0
