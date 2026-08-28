@@ -38,7 +38,7 @@ def create_driver():
 
 
 def save_debug_files(driver):
-    """Save the current page if IMDb does not load as expected."""
+    """Save the current page when IMDb does not load as expected."""
     debug_dir = Path("data/raw")
     debug_dir.mkdir(parents=True, exist_ok=True)
 
@@ -54,10 +54,10 @@ def save_debug_files(driver):
         print("Could not save debug files:", repr(error))
 
 
-def wait_for_movie_titles(driver):
-    """Wait until IMDb movie-title elements become available."""
+def find_movie_titles(driver, timeout=20):
+    """Wait for IMDb movie-title elements and return them."""
     try:
-        return WebDriverWait(driver, 40).until(
+        return WebDriverWait(driver, timeout).until(
             EC.presence_of_all_elements_located(
                 (By.CSS_SELECTOR, TITLE_SELECTOR)
             )
@@ -67,32 +67,36 @@ def wait_for_movie_titles(driver):
 
 
 def load_imdb(driver):
-    """Load IMDb, retry once, and return visible title elements."""
+    """Open IMDb and allow manual completion of human verification."""
     print("Opening IMDb 2024 movies page...")
 
     try:
         driver.get(IMDB_URL)
     except TimeoutException:
-        print("Initial page load timed out, continuing with available content...")
+        print("Initial page load timed out. Checking the browser...")
 
-    time.sleep(5)
+    time.sleep(3)
 
     print("Current URL:", driver.current_url)
     print("Page title:", driver.title or "[blank]")
 
-    title_elements = wait_for_movie_titles(driver)
+    title_elements = find_movie_titles(driver, timeout=15)
 
     if title_elements:
         return title_elements
 
-    print("Movie titles were not detected. Refreshing once...")
-    driver.refresh()
-    time.sleep(8)
+    print("\nIMDb movie data is not visible yet.")
+    print("If Chrome shows 'Human Verification', complete it manually.")
+    print("Do NOT close Chrome.")
+    input("After the normal IMDb movie list appears, press Enter here...")
 
-    print("Current URL after refresh:", driver.current_url)
-    print("Page title after refresh:", driver.title or "[blank]")
+    print("Checking IMDb again after verification...")
+    time.sleep(2)
 
-    return wait_for_movie_titles(driver)
+    print("Current URL:", driver.current_url)
+    print("Page title:", driver.title or "[blank]")
+
+    return find_movie_titles(driver, timeout=30)
 
 
 def extract_titles(elements):
@@ -116,7 +120,7 @@ def extract_titles(elements):
 
 
 def main():
-    """Launch Chrome and print the visible IMDb 2024 movie titles."""
+    """Launch Chrome and print visible IMDb 2024 movie titles."""
     driver = None
 
     try:
@@ -126,9 +130,7 @@ def main():
         title_elements = load_imdb(driver)
 
         if not title_elements:
-            print("\nIMDb movie titles could not be detected.")
-            print("Look at the Chrome window to see whether IMDb shows a blank,")
-            print("consent, verification, network, or access page.")
+            print("\nIMDb movie titles still could not be detected.")
             save_debug_files(driver)
             input("\nPress Enter to close Chrome...")
             return
