@@ -4,6 +4,7 @@ import re
 import time
 from pathlib import Path
 
+import pandas as pd
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver.chrome.options import Options
@@ -244,8 +245,35 @@ def print_first_record(movies):
     print("-" * 50)
 
 
+def save_movies_to_csv(movies, genre):
+    """Save structured movie records to a genre-specific CSV file."""
+    output_dir = Path("data/genre")
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    file_name = f"{genre.lower()}_movies.csv"
+    output_path = output_dir / file_name
+
+    columns = [
+        "Movie Name",
+        "Genre",
+        "Ratings",
+        "Voting Counts",
+        "Duration",
+    ]
+
+    dataframe = pd.DataFrame(movies, columns=columns)
+    dataframe.to_csv(output_path, index=False)
+
+    print(f"\nCSV saved successfully: {output_path}")
+    print(f"Rows saved: {len(dataframe)}")
+    print("\nFirst 5 CSV rows:")
+    print(dataframe.head().to_string(index=False))
+
+    return output_path
+
+
 def main():
-    """Launch Chrome and extract visible IMDb 2024 Action movies."""
+    """Launch Chrome, extract IMDb 2024 Action movies, and save CSV."""
     driver = None
 
     try:
@@ -262,6 +290,9 @@ def main():
 
         print(f"\nStructured movie records extracted: {len(movies)}")
         print_first_record(movies)
+
+        if movies:
+            save_movies_to_csv(movies, GENRE)
 
         input("\nPress Enter to close Chrome...")
 
