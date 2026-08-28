@@ -1,4 +1,4 @@
-"""Scrape IMDb 2024 movie data genre by genre with Selenium."""
+"""Scrape IMDb 2026 movie data genre by genre with Selenium."""
 
 import re
 import time
@@ -30,7 +30,7 @@ GENRES = {
 
 BASE_URL = (
     "https://www.imdb.com/search/title/"
-    "?title_type=feature&release_date=2024-01-01,2024-12-31"
+    "?title_type=feature&release_date=2026-01-01,2026-08-28"
 )
 
 TITLE_SELECTOR = ".ipc-title__text"
@@ -47,7 +47,7 @@ REQUIRED_COLUMNS = [
 
 
 def build_genre_url(genre_slug):
-    """Build the IMDb 2024 search URL for one genre."""
+    """Build the IMDb 2026 search URL for one genre."""
     return f"{BASE_URL}&genres={genre_slug}"
 
 
@@ -140,7 +140,7 @@ def find_movie_titles(driver, timeout=20):
 def load_genre_page(driver, genre, genre_slug):
     """Open one IMDb genre page and handle human verification if needed."""
     url = build_genre_url(genre_slug)
-    print(f"\nOpening IMDb 2024 {genre} movies...")
+    print(f"\nOpening IMDb 2026 {genre} movies...")
 
     try:
         driver.get(url)
