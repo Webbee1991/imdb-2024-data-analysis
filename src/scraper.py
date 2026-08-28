@@ -36,6 +36,11 @@ BASE_URL = (
 TITLE_SELECTOR = ".ipc-title__text"
 TITLE_LINK_SELECTOR = "a.ipc-title-link-wrapper"
 MOVIE_CARD_SELECTOR = "li.ipc-metadata-list-summary-item"
+LOAD_MORE_SELECTOR = "button.ipc-see-more__button"
+
+# Test mode: click IMDb's Load More button only once per genre.
+# After this logic is verified, we will remove this limit.
+MAX_LOAD_MORE_CLICKS = 1
 
 
 def build_genre_url(genre_slug):
@@ -153,6 +158,81 @@ def load_genre_page(driver, genre, genre_slug):
 
     time.sleep(2)
     return bool(find_movie_titles(driver, timeout=30))
+
+
+def find_load_more_button(driver):
+    """Return IMDb's visible Load More button when one is available."""
+    buttons = driver.find_elements(By.CSS_SELECTOR, LOAD_MORE_SELECTOR)
+
+    for button in reversed(buttons):
+        try:
+            if button.is_displayed() and "more" in button.text.lower():
+                return button
+        except WebDriverException:
+            continue
+
+    return None
+
+
+def load_more_movies(driver, genre):
+    """Load an additional batch of movie cards for one genre."""
+    click_count = 0
+
+    while click_count < MAX_LOAD_MORE_CLICKS:
+        button = find_load_more_button(driver)
+
+        if button is None:
+            print(f"No Load More button found for {genre}.")
+            break
+
+        previous_count = len(
+            driver.find_elements(By.CSS_SELECTOR, MOVIE_CARD_SELECTOR)
+        )
+
+        print(
+            f"{genre}: {previous_count} cards visible. "
+            "Clicking Load More..."
+        )
+
+        try:
+            driver.execute_script(
+                "arguments[0].scrollIntoView({block: 'center'});",
+                button,
+            )
+            time.sleep(1)
+
+            try:
+                button.click()
+            except WebDriverException:
+                driver.execute_script("arguments[0].click();", button)
+
+            WebDriverWait(driver, 25).until(
+                lambda current_driver: len(
+                    current_driver.find_elements(
+                        By.CSS_SELECTOR,
+                        MOVIE_CARD_SELECTOR,
+                    )
+                )
+                > previous_count
+            )
+
+        except TimeoutException:
+            print(
+                f"{genre}: Load More was clicked, but no new cards "
+                "appeared within the timeout."
+            )
+            break
+        except WebDriverException as error:
+            print(f"{genre}: Could not click Load More: {error}")
+            break
+
+        click_count += 1
+        current_count = len(
+            driver.find_elements(By.CSS_SELECTOR, MOVIE_CARD_SELECTOR)
+        )
+        print(f"{genre}: movie cards increased to {current_count}.")
+
+    return len(driver.find_elements(By.CSS_SELECTOR, MOVIE_CARD_SELECTOR))
 
 
 def extract_title(card):
@@ -293,6 +373,8 @@ def scrape_all_genres(driver):
             save_debug_files(driver, genre)
             summary.append((genre, 0))
             continue
+
+        load_more_movies(driver, genre)
 
         movies = scrape_visible_movies(driver, genre)
         row_count = save_movies_to_csv(movies, genre) if movies else 0
