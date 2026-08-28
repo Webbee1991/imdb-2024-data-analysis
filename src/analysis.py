@@ -6,7 +6,10 @@ import pandas as pd
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
-from database import create_mysql_engine
+try:
+    from .database import create_mysql_engine
+except ImportError:
+    from database import create_mysql_engine
 
 
 QUERIES = {
