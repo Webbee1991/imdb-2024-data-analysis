@@ -1,4 +1,4 @@
-"""Scrape structured IMDb 2024 movie data with Selenium."""
+"""Scrape structured IMDb 2024 movie data genre by genre with Selenium."""
 
 import re
 import time
@@ -13,16 +13,33 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 
-GENRE = "Action"
+GENRES = {
+    "Action": "action",
+    "Adventure": "adventure",
+    "Animation": "animation",
+    "Comedy": "comedy",
+    "Crime": "crime",
+    "Drama": "drama",
+    "Fantasy": "fantasy",
+    "Horror": "horror",
+    "Mystery": "mystery",
+    "Romance": "romance",
+    "Sci-Fi": "sci-fi",
+    "Thriller": "thriller",
+}
 
-IMDB_URL = (
+BASE_URL = (
     "https://www.imdb.com/search/title/"
     "?title_type=feature&release_date=2024-01-01,2024-12-31"
-    "&genres=action"
 )
 
 TITLE_SELECTOR = ".ipc-title__text"
 MOVIE_CARD_SELECTOR = "li.ipc-metadata-list-summary-item"
+
+
+def build_genre_url(genre_slug):
+    """Build the IMDb 2024 search URL for one genre."""
+    return f"{BASE_URL}&genres={genre_slug}"
 
 
 def clean_title(raw_title):
@@ -81,13 +98,14 @@ def create_driver():
     return driver
 
 
-def save_debug_files(driver):
+def save_debug_files(driver, genre):
     """Save the current page when IMDb does not load as expected."""
     debug_dir = Path("data/raw")
     debug_dir.mkdir(parents=True, exist_ok=True)
 
-    screenshot_path = debug_dir / "imdb_debug.png"
-    html_path = debug_dir / "imdb_debug.html"
+    safe_genre = genre.lower().replace(" ", "_").replace("-", "_")
+    screenshot_path = debug_dir / f"imdb_{safe_genre}_debug.png"
+    html_path = debug_dir / f"imdb_{safe_genre}_debug.html"
 
     try:
         driver.save_screenshot(str(screenshot_path))
@@ -110,33 +128,29 @@ def find_movie_titles(driver, timeout=20):
         return []
 
 
-def load_imdb(driver):
-    """Open IMDb and allow manual completion of human verification."""
-    print(f"Opening IMDb 2024 {GENRE} movies page...")
+def load_genre_page(driver, genre, genre_slug):
+    """Open one IMDb genre page and handle human verification if needed."""
+    url = build_genre_url(genre_slug)
+    print(f"\nOpening IMDb 2024 {genre} movies...")
 
     try:
-        driver.get(IMDB_URL)
+        driver.get(url)
     except TimeoutException:
-        print("Initial page load timed out. Checking the browser...")
+        print("Page load timed out. Checking available content...")
 
     time.sleep(3)
-
-    print("Current URL:", driver.current_url)
-    print("Page title:", driver.title or "[blank]")
 
     title_elements = find_movie_titles(driver, timeout=15)
 
     if title_elements:
         return True
 
-    print("\nIMDb movie data is not visible yet.")
-    print("If Chrome shows 'Human Verification', complete it manually.")
+    print(f"IMDb data for {genre} is not visible yet.")
+    print("If Chrome shows Human Verification, complete it manually.")
     print("Do NOT close Chrome.")
-    input("After the normal IMDb movie list appears, press Enter here...")
+    input("After the movie list appears, press Enter here...")
 
-    print("Checking IMDb again after verification...")
     time.sleep(2)
-
     return bool(find_movie_titles(driver, timeout=30))
 
 
@@ -227,31 +241,13 @@ def scrape_visible_movies(driver, genre):
     return movies
 
 
-def print_first_record(movies):
-    """Print the first structured movie record for validation."""
-    print("\nFIRST STRUCTURED MOVIE RECORD")
-    print("-" * 50)
-
-    if not movies:
-        print("No structured movie records were extracted.")
-        print("-" * 50)
-        return
-
-    first_movie = movies[0]
-
-    for key, value in first_movie.items():
-        print(f"{key}: {value}")
-
-    print("-" * 50)
-
-
 def save_movies_to_csv(movies, genre):
     """Save structured movie records to a genre-specific CSV file."""
     output_dir = Path("data/genre")
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    file_name = f"{genre.lower()}_movies.csv"
-    output_path = output_dir / file_name
+    safe_genre = genre.lower().replace(" ", "_").replace("-", "_")
+    output_path = output_dir / f"{safe_genre}_movies.csv"
 
     columns = [
         "Movie Name",
@@ -264,35 +260,55 @@ def save_movies_to_csv(movies, genre):
     dataframe = pd.DataFrame(movies, columns=columns)
     dataframe.to_csv(output_path, index=False)
 
-    print(f"\nCSV saved successfully: {output_path}")
-    print(f"Rows saved: {len(dataframe)}")
-    print("\nFirst 5 CSV rows:")
-    print(dataframe.head().to_string(index=False))
+    print(f"Saved {len(dataframe)} rows -> {output_path}")
+    return len(dataframe)
 
-    return output_path
+
+def scrape_all_genres(driver):
+    """Scrape each configured genre and save one CSV per genre."""
+    summary = []
+
+    for genre, genre_slug in GENRES.items():
+        loaded = load_genre_page(driver, genre, genre_slug)
+
+        if not loaded:
+            print(f"Could not load {genre}. Skipping this genre.")
+            save_debug_files(driver, genre)
+            summary.append((genre, 0))
+            continue
+
+        movies = scrape_visible_movies(driver, genre)
+        row_count = save_movies_to_csv(movies, genre) if movies else 0
+        summary.append((genre, row_count))
+
+    return summary
+
+
+def print_summary(summary):
+    """Print a compact summary of all generated genre CSV files."""
+    print("\nGENRE SCRAPING SUMMARY")
+    print("-" * 40)
+
+    total_rows = 0
+
+    for genre, row_count in summary:
+        print(f"{genre}: {row_count} rows")
+        total_rows += row_count
+
+    print("-" * 40)
+    print(f"Total rows across genre CSVs: {total_rows}")
 
 
 def main():
-    """Launch Chrome, extract IMDb 2024 Action movies, and save CSV."""
+    """Launch Chrome, scrape configured IMDb genres, and save CSV files."""
     driver = None
 
     try:
         print("Starting Chrome...")
         driver = create_driver()
 
-        if not load_imdb(driver):
-            print("\nIMDb movie data still could not be detected.")
-            save_debug_files(driver)
-            input("\nPress Enter to close Chrome...")
-            return
-
-        movies = scrape_visible_movies(driver, GENRE)
-
-        print(f"\nStructured movie records extracted: {len(movies)}")
-        print_first_record(movies)
-
-        if movies:
-            save_movies_to_csv(movies, GENRE)
+        summary = scrape_all_genres(driver)
+        print_summary(summary)
 
         input("\nPress Enter to close Chrome...")
 
@@ -302,7 +318,7 @@ def main():
         print("Error details:", repr(error))
 
         if driver is not None:
-            save_debug_files(driver)
+            save_debug_files(driver, "general")
 
         input("\nPress Enter to close Chrome...")
 
@@ -312,7 +328,7 @@ def main():
         print("Error details:", repr(error))
 
         if driver is not None:
-            save_debug_files(driver)
+            save_debug_files(driver, "general")
 
         input("\nPress Enter to close Chrome...")
 
