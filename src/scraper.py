@@ -18,6 +18,7 @@ IMDB_URL = (
 )
 
 TITLE_SELECTOR = ".ipc-title__text"
+MOVIE_CARD_SELECTOR = "li.ipc-metadata-list-summary-item"
 
 
 def clean_title(raw_title):
@@ -119,6 +120,22 @@ def extract_titles(elements):
     return titles
 
 
+def print_first_movie_card(driver):
+    """Print visible text from the first IMDb result card for inspection."""
+    cards = driver.find_elements(By.CSS_SELECTOR, MOVIE_CARD_SELECTOR)
+
+    print("\nFIRST MOVIE CARD DATA")
+    print("-" * 50)
+
+    if not cards:
+        print("No movie cards found with the current selector.")
+        print("-" * 50)
+        return
+
+    print(cards[0].text)
+    print("-" * 50)
+
+
 def main():
     """Launch Chrome and print visible IMDb 2024 movie titles."""
     driver = None
@@ -145,6 +162,9 @@ def main():
             print(f"{number}. {title}")
 
         print(f"\nMovie titles extracted: {len(titles)}")
+
+        print_first_movie_card(driver)
+
         input("\nPress Enter to close Chrome...")
 
     except WebDriverException as error:
